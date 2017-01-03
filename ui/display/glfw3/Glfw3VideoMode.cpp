@@ -34,8 +34,8 @@ namespace ui {
 
 namespace display {
 
-Glfw3VideoMode::Glfw3VideoMode(const GLFWvidmode *vidmode)
-    : vidmode(vidmode) {
+Glfw3VideoMode::Glfw3VideoMode(const GLFWvidmode *_vidmode)
+    : vidmode(_vidmode) {
 }
 
 int Glfw3VideoMode::getWidth() const {

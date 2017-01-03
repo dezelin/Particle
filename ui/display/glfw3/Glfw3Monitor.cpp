@@ -35,9 +35,8 @@ namespace ui {
 
 namespace display {
 
-Glfw3Monitor::Glfw3Monitor(GLFWmonitor *monitor, unsigned id)
-    : id(id), monitor(monitor) {
-
+Glfw3Monitor::Glfw3Monitor(GLFWmonitor *_monitor, unsigned _id)
+    : id(_id), monitor(_monitor) {
 }
 
 unsigned Glfw3Monitor::getId() const {
