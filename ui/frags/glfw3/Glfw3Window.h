@@ -28,31 +28,69 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_WINDOW_H
-#define PARTICLE_WINDOW_H
+#ifndef PARTICLE_GLFW3WINDOW_H
+#define PARTICLE_GLFW3WINDOW_H
+
+#include "frags/Window.h"
 
 #include <GLFW/glfw3.h>
+#include <mutex>
 
 namespace ui {
 
-class Window {
+namespace frags {
 
-    Window() {
+namespace glfw3 {
 
-    }
+class Glfw3Window : public Window {
+public:
+    Glfw3Window(const WindowOptions& options);
 
-    Window(int width, int height) {
+    virtual ~Glfw3Window();
 
-    }
+    Fragment *getRootFragment() override;
+
+    bool shouldClose() const override;
+
+    void activateContext() override;
+
+    void setBufferSwapInterval(int interval) override;
+
+    void render() const override;
+
+    void onWindowResize(int width, int height) override;
+
+    void onFramebufferResize(int width, int height) override;
+
+    void onWindowPosition(int x, int y) override;
+
+    void onWindowIconify(bool iconified) override;
+
+    void onWindowFocus(bool focused) override;
+
+    void onWindowRefresh() override;
 
 private:
-    void create();
+
+    GLFWwindow* getHandle() { return window; }
+
+    static std::mutex mutex;
+    static std::vector<std::unique_ptr<Glfw3Window>> windows;
+
+    static Glfw3Window* findWindow(GLFWwindow *window);
+    static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
+    static void windowIconifyCallback(GLFWwindow *window, int iconified);
+    static void windowFocusCallback(GLFWwindow *window, int focused);
+    static void windowPositionCallback(GLFWwindow *window, int x, int y);
+    static void windowRefreshCallback(GLFWwindow *window);
+    static void windowSizeCallback(GLFWwindow *window, int width, int height);
 
 private:
     GLFWwindow *window;
 };
 
 }
+}
+}
 
-
-#endif //PARTICLE_WINDOW_H
+#endif //PARTICLE_GLFW3WINDOW_H

@@ -29,9 +29,6 @@
 //
 
 #include "Glfw3MonitorManager.h"
-#include "Glfw3Monitor.h"
-
-#include <GLFW/glfw3.h>
 
 #include <algorithm>
 

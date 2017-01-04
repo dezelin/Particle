@@ -30,9 +30,14 @@
 
 #include "Window.h"
 
+#include "glfw3/Glfw3Window.h"
+
 namespace ui {
 
 namespace frags {
 
+std::unique_ptr<Window> Window::create(const WindowOptions &options) {
+    return std::make_unique<glfw3::Glfw3Window>(options);
+}
 }
 }

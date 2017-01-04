@@ -31,10 +31,11 @@
 #ifndef PARTICLE_GLFW3MONITOR_H
 #define PARTICLE_GLFW3MONITOR_H
 
-#include "../Monitor.h"
-#include "../VideoMode.h"
+#include "display/Monitor.h"
+#include "display/VideoMode.h"
 
 #include <GLFW/glfw3.h>
+
 #include <memory>
 
 namespace ui {
@@ -44,6 +45,8 @@ namespace display {
 class Glfw3Monitor : public Monitor {
 public:
     explicit Glfw3Monitor(GLFWmonitor *monitor, unsigned id);
+
+    virtual ~Glfw3Monitor() { }
 
     unsigned getId() const override;
 

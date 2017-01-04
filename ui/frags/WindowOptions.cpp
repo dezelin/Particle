@@ -50,27 +50,42 @@ const uint16_t kDefaultStyle =
         | WindowOptions::WINDOWSTYLE_AUTO_ICONIFY
         | WindowOptions::WINDOWSTYLE_DOUBLE_BUFFER;
 
-WindowOptions::WindowOptions(int _width, int _height, const std::string& _title)
-        : title(_title)
-        , width(_width)
-        , height(_height)
-        , redBits(kDefaultColorBits)
-        , greenBits(kDefaultColorBits)
-        , blueBits(kDefaultColorBits)
-        , alphaBits(kDefaultColorBits)
-        , depthBits(kDefaultDepthBits)
-        , stencilBits(kDefaultStencilBits)
-        , samples(kDefaultSamplesNum)
-        , refreshRate(kDefaultRefreshRate)
-        , clientApi(ClientApi::OpenGL)
-        , contextApi(ContextApi::Native)
-        , contextApiVersion(ContextApiVersion::Latest)
-        , contextRobustness(ContextRobustness::No)
-        , contextReleaseBehavior(ContextReleaseBehavior::Any)
-        , profile(OpenGLProfile::Any)
-        , style(kDefaultStyle)
+WindowOptions::WindowOptions()
+    : width(0)
+    , height(0)
+    , fullScreen(true)
+    , redBits(kDefaultColorBits)
+    , greenBits(kDefaultColorBits)
+    , blueBits(kDefaultColorBits)
+    , alphaBits(kDefaultColorBits)
+    , depthBits(kDefaultDepthBits)
+    , stencilBits(kDefaultStencilBits)
+    , samples(kDefaultSamplesNum)
+    , refreshRate(kDefaultRefreshRate)
+    , clientApi(ClientApi::OpenGL)
+    , contextApi(ContextApi::Native)
+    , contextApiVersion(ContextApiVersion::Latest)
+    , contextRobustness(ContextRobustness::No)
+    , contextReleaseBehavior(ContextReleaseBehavior::Any)
+    , profile(OpenGLProfile::Any)
+    , style(kDefaultStyle)
 {
-    initialize();
+
+}
+
+WindowOptions::WindowOptions(const std::string &_title)
+    : WindowOptions()
+{
+    title = _title;
+}
+
+WindowOptions::WindowOptions(int _width, int _height, const std::string& _title)
+    : WindowOptions()
+{
+    fullScreen = true;
+    title = _title;
+    width = _width;
+    height = _height;
 }
 
 const std::string &WindowOptions::getTitle() const {
@@ -95,6 +110,14 @@ int WindowOptions::getHeight() const {
 
 void WindowOptions::setHeight(int _height) {
     height = _height;
+}
+
+bool WindowOptions::isFullScreen() const {
+    return fullScreen;
+}
+
+void WindowOptions::setFullScreen(bool _fullScreen) {
+    fullScreen = _fullScreen;
 }
 
 uint8_t WindowOptions::getRedBits() const {
@@ -207,23 +230,6 @@ WindowOptions::OpenGLProfile WindowOptions::getProfile() const {
 
 void WindowOptions::setProfile(WindowOptions::OpenGLProfile _profile) {
     profile = _profile;
-}
-
-void WindowOptions::initialize() {
-    GLFWmonitor *monitor = glfwGetPrimaryMonitor();
-    if(!monitor) {
-        return;
-    }
-
-    const GLFWvidmode *vidmode = glfwGetVideoMode(monitor);
-    if(!vidmode) {
-        return;
-    }
-
-    redBits = vidmode->redBits;
-    greenBits = vidmode->greenBits;
-    blueBits = vidmode->blueBits;
-    refreshRate = vidmode->refreshRate;
 }
 
 }

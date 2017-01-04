@@ -29,6 +29,7 @@
 //
 
 #include "MonitorManager.h"
+
 #include "glfw3/Glfw3MonitorManager.h"
 
 namespace ui {

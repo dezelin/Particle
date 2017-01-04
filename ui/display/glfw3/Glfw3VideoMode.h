@@ -31,7 +31,7 @@
 #ifndef PARTICLE_GLFW3VIDEOMODE_H
 #define PARTICLE_GLFW3VIDEOMODE_H
 
-#include "../VideoMode.h"
+#include "display/VideoMode.h"
 
 #include <GLFW/glfw3.h>
 
@@ -42,6 +42,8 @@ namespace display {
 class Glfw3VideoMode : public VideoMode {
 public:
     explicit Glfw3VideoMode(const GLFWvidmode *vidmode);
+
+    virtual ~Glfw3VideoMode() { }
 
     int getWidth() const override;
 

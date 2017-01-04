@@ -31,9 +31,9 @@
 #ifndef PARTICLE_MOUSEINPUTHANDLER_H
 #define PARTICLE_MOUSEINPUTHANDLER_H
 
-#include "../events/MouseEvent.h"
-#include "../events/MouseButtonEvent.h"
-#include "../events/MouseWheelEvent.h"
+#include "events/MouseEvent.h"
+#include "events/MouseButtonEvent.h"
+#include "events/MouseWheelEvent.h"
 
 namespace ui {
 

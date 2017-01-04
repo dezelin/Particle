@@ -90,6 +90,10 @@ struct WindowOptions {
         WINDOWSTYLE_FULL_SCREEN = 1 << 13
     };
 
+    WindowOptions();
+
+    WindowOptions(const std::string& title);
+
     WindowOptions(int width, int height, const std::string& title);
 
     const std::string &getTitle() const;
@@ -103,6 +107,10 @@ struct WindowOptions {
     int getHeight() const;
 
     void setHeight(int height);
+
+    bool isFullScreen() const;
+
+    void setFullScreen(bool fullScreen);
 
     uint8_t getRedBits() const;
 
@@ -161,12 +169,10 @@ struct WindowOptions {
     void setProfile(OpenGLProfile profile);
 
 private:
-    void initialize();
-
-private:
     std::string title;
     int width;
     int height;
+    bool fullScreen;
 
     uint8_t redBits;
     uint8_t greenBits;

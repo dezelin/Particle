@@ -34,5 +34,8 @@ namespace ui {
 
 namespace frags {
 
+std::unique_ptr<Button> Button::create(const ButtonCreationParams &params) {
+    return std::unique_ptr<Button>();
+}
 }
 }

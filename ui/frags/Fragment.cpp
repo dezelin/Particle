@@ -30,24 +30,35 @@
 
 #include "Fragment.h"
 
+#include <algorithm>
+
 namespace ui {
 
 namespace frags {
 
 const std::vector<Fragment *> &Fragment::getChildren() const {
-    return <#initializer#>;
+    return children;
 }
 
 Fragment *Fragment::getParent() {
-    return nullptr;
+    return parent;
 }
 
 void Fragment::addChild(Fragment *childFragment) {
-
+    auto it = std::find(children.begin(), children.end(), childFragment);
+    if(it == children.end()) {
+        children.push_back(childFragment);
+    }
 }
 
 Fragment *Fragment::removeChild(Fragment *childFragment) {
-    return nullptr;
+    auto it = std::remove(children.begin(), children.end(), childFragment);
+    if(it == children.end()) {
+        return nullptr;
+    }
+
+    children.erase(it, children.end());
+    return *it;
 }
 
 void Fragment::draw() {

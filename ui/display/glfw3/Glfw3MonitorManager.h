@@ -31,9 +31,10 @@
 #ifndef PARTICLE_GLFW3MONITORMANAGER_H
 #define PARTICLE_GLFW3MONITORMANAGER_H
 
-#include "../MonitorManager.h"
-#include "../MonitorManagerSubscriber.h"
 #include "Glfw3Monitor.h"
+
+#include "display/MonitorManager.h"
+#include "display/MonitorManagerSubscriber.h"
 
 #include <GLFW/glfw3.h>
 

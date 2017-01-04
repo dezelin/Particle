@@ -41,6 +41,8 @@ template<typename T>
 class Component {
 public:
 
+    virtual ~Component() { }
+
     virtual const std::vector<T*>& getChildren() const = 0;
 
     virtual T* getParent() = 0;

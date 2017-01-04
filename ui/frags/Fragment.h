@@ -50,6 +50,8 @@ class Fragment
 public:
     const std::vector<Fragment *> &getChildren() const override;
 
+    virtual ~Fragment() { }
+
     Fragment *getParent() override;
 
     void addChild(Fragment *childFragment) override;
@@ -71,6 +73,10 @@ public:
     void onMouseButtonReleased(const events::MouseButtonEvent &event) override;
 
     void onMouseWheel(const events::MouseWheelEvent &event) override;
+
+private:
+    Fragment *parent;
+    std::vector<Fragment*> children;
 };
 
 }

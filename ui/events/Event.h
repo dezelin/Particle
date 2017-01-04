@@ -62,7 +62,7 @@ public:
                    && handler->getMember() == member;
         });
 
-        handlers.erase(it);
+        handlers.erase(it, handlers.end());
     }
 
     void notify(Args ...args) const {

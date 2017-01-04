@@ -28,11 +28,23 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#include "FragmentContext.h"
+#ifndef PARTICLE_RENDERINGCONTEXT_H
+#define PARTICLE_RENDERINGCONTEXT_H
 
 namespace ui {
 
 namespace frags {
 
+class RenderingContext {
+public:
+
+    virtual ~RenderingContext() { }
+
+    virtual void activateContext() = 0;
+    virtual void setBufferSwapInterval(int interval) = 0;
+};
+
 }
 }
+
+#endif //PARTICLE_RENDERINGCONTEXT_H

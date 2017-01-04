@@ -28,30 +28,47 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_BUTTON_H
-#define PARTICLE_BUTTON_H
+#include <thread>
+#include "Glfw3App.h"
 
-#include "ButtonCreationParams.h"
-#include "Fragment.h"
-
-#include "events/Event.h"
-
-#include <memory>
+#include "frags/glfw3/Glfw3Window.h"
 
 namespace ui {
 
-namespace frags {
+namespace app {
 
-class Button : public Fragment {
-public:
-    static std::unique_ptr<Button> create(const ButtonCreationParams& params);
+namespace glfw3 {
 
-    virtual ~Button() { }
-private:
-    events::Event<> clickEvent;
-};
+using namespace ui::frags;
+using namespace ui::frags::glfw3;
+
+Glfw3App::Glfw3App(const AppOptions &options) {
+    if(!glfwInit()) {
+        throw std::runtime_error("Failed to initialize GLFW");
+    }
+
+    mainWindow = Window::create(options.getMainWindowOptions());
+    if(!mainWindow) {
+        throw std::runtime_error("Failed to create main window");
+    }
+
+    mainWindow->activateContext();
+    mainWindow->setBufferSwapInterval(1);
+}
+
+Glfw3App::~Glfw3App() {
+}
+
+int Glfw3App::run() {
+    while(!mainWindow->shouldClose()) {
+        mainWindow->render();
+        glfwWaitEvents();
+    }
+
+    return 0;
+}
 
 }
 }
 
-#endif //PARTICLE_BUTTON_H
+}

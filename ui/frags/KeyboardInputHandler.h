@@ -31,7 +31,7 @@
 #ifndef PARTICLE_KEYBOARDINPUTHANDLER_H
 #define PARTICLE_KEYBOARDINPUTHANDLER_H
 
-#include "../events/KeyboardEvent.h"
+#include "events/KeyboardEvent.h"
 
 namespace ui {
 

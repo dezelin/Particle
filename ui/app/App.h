@@ -28,4 +28,29 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#include "Window.h"
+#ifndef PARTICLE_APP_H
+#define PARTICLE_APP_H
+
+#include "AppOptions.h"
+
+#include "frags/Window.h"
+
+#include <memory>
+
+namespace ui {
+
+namespace app {
+
+class App {
+public:
+    static std::unique_ptr<App> create(const AppOptions& options);
+
+    virtual ~App();
+
+    virtual int run() = 0;
+};
+
+}
+}
+
+#endif //PARTICLE_APP_H

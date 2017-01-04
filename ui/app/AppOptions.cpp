@@ -28,30 +28,19 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_BUTTON_H
-#define PARTICLE_BUTTON_H
-
-#include "ButtonCreationParams.h"
-#include "Fragment.h"
-
-#include "events/Event.h"
-
-#include <memory>
+#include "AppOptions.h"
 
 namespace ui {
 
-namespace frags {
+namespace app {
 
-class Button : public Fragment {
-public:
-    static std::unique_ptr<Button> create(const ButtonCreationParams& params);
+AppOptions::AppOptions() {
 
-    virtual ~Button() { }
-private:
-    events::Event<> clickEvent;
-};
+}
+
+AppOptions AppOptions::parseCmdLine(int argc, char **argv) {
+    return AppOptions();
+}
 
 }
 }
-
-#endif //PARTICLE_BUTTON_H

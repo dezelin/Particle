@@ -28,30 +28,37 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_BUTTON_H
-#define PARTICLE_BUTTON_H
+#ifndef PARTICLE_GLFW3APP_H
+#define PARTICLE_GLFW3APP_H
 
-#include "ButtonCreationParams.h"
-#include "Fragment.h"
+#include "app/App.h"
+#include "app/AppOptions.h"
+#include "frags/Window.h"
 
-#include "events/Event.h"
+#include <GLFW/glfw3.h>
 
 #include <memory>
 
 namespace ui {
 
-namespace frags {
+namespace app {
 
-class Button : public Fragment {
+namespace glfw3 {
+
+class Glfw3App : public App {
+
 public:
-    static std::unique_ptr<Button> create(const ButtonCreationParams& params);
+    Glfw3App(const AppOptions& options);
+    virtual ~Glfw3App();
 
-    virtual ~Button() { }
+    int run() override;
+
 private:
-    events::Event<> clickEvent;
+    std::unique_ptr<frags::Window> mainWindow;
 };
 
 }
 }
+}
 
-#endif //PARTICLE_BUTTON_H
+#endif //PARTICLE_GLFW3APP_H

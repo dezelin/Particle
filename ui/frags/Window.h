@@ -32,6 +32,7 @@
 #define PARTICLE_WINDOW_H
 
 #include "Fragment.h"
+#include "RenderingContext.h"
 #include "WindowOptions.h"
 
 #include <memory>
@@ -40,13 +41,24 @@ namespace ui {
 
 namespace frags {
 
-class Window : public Fragment {
+class Window : public RenderingContext {
 public:
+    static std::unique_ptr<Window> create(const WindowOptions& options);
 
-    virtual std::unique_ptr<Window> create(const WindowOptions& options) = 0;
+    virtual ~Window() { }
 
     virtual Fragment* getRootFragment() = 0;
 
+    virtual void render() const = 0;
+
+    virtual bool shouldClose() const = 0;
+
+    virtual void onWindowResize(int width, int height) = 0;
+    virtual void onFramebufferResize(int width, int height) = 0;
+    virtual void onWindowPosition(int x, int y) = 0;
+    virtual void onWindowIconify(bool iconified) = 0;
+    virtual void onWindowFocus(bool focused) = 0;
+    virtual void onWindowRefresh() = 0;
 };
 
 }

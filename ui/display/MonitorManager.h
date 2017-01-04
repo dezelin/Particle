@@ -44,6 +44,8 @@ class MonitorManager {
 public:
     static MonitorManager& getInstance();
 
+    virtual ~MonitorManager() { }
+
     virtual std::unique_ptr<Monitor> getPrimaryMonitor() const = 0;
 
     virtual int getMonitorCount() const = 0;

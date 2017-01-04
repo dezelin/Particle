@@ -28,18 +28,21 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_FRAGMENTCONTEXT_H
-#define PARTICLE_FRAGMENTCONTEXT_H
+#include "App.h"
+#include "glfw3/Glfw3App.h"
 
 namespace ui {
 
-namespace frags {
+namespace app {
 
-class FragmentContext {
+using namespace ui::frags;
 
-};
+App::~App() { }
+
+std::unique_ptr<App> App::create(const AppOptions &options) {
+    using Glfw3App = ui::app::glfw3::Glfw3App;
+    return std::make_unique<Glfw3App>(options);
+}
 
 }
 }
-
-#endif //PARTICLE_FRAGMENTCONTEXT_H

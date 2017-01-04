@@ -34,7 +34,6 @@
 #include "VideoMode.h"
 
 #include <vector>
-#include <bits/unique_ptr.h>
 #include <memory>
 
 namespace ui {
@@ -43,6 +42,8 @@ namespace display {
 
 class Monitor {
 public:
+
+    virtual ~Monitor() { }
 
     virtual unsigned getId() const = 0;
 
