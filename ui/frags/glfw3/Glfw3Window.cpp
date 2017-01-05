@@ -38,18 +38,82 @@ namespace frags {
 
 namespace glfw3 {
 
+struct ClientApiPair {
+    WindowOptions::ClientApi clientApi;
+    int glfwValue;
+};
+
+struct ContextApiPair {
+    WindowOptions::ContextApi contextApi;
+    int glfwValue;
+};
+
+struct ContextRobustnessPair {
+    WindowOptions::ContextRobustness robustness;
+    int glfwValue;
+};
+
+struct ContextReleaseBehaviorPair {
+    WindowOptions::ContextReleaseBehavior releaseBehavior;
+    int glfwValue;
+};
+
+struct StylePair {
+    int style;
+    int glfwValue;
+};
+
+struct ClientApiPair clientApiPairs[] = {
+        { WindowOptions::ClientApi::NoApi, GLFW_NO_API },
+        { WindowOptions::ClientApi::OpenGLES, GLFW_OPENGL_ES_API },
+        { WindowOptions::ClientApi::OpenGL, GLFW_OPENGL_API }
+};
+
+struct ContextApiPair contextApiPairs[] = {
+        { WindowOptions::ContextApi::EGL, GLFW_EGL_CONTEXT_API },
+        { WindowOptions::ContextApi::Native, GLFW_NATIVE_CONTEXT_API }
+};
+
+struct ContextRobustnessPair contextRobustnessPairs[] = {
+        { WindowOptions::ContextRobustness::LoseContextOnReset, GLFW_LOSE_CONTEXT_ON_RESET },
+        { WindowOptions::ContextRobustness::No, GLFW_NO_ROBUSTNESS },
+        { WindowOptions::ContextRobustness::NoResetNotification, GLFW_NO_RESET_NOTIFICATION }
+};
+
+struct ContextReleaseBehaviorPair releaseBehaviorPairs[] = {
+        { WindowOptions::ContextReleaseBehavior::Any, GLFW_ANY_RELEASE_BEHAVIOR },
+        { WindowOptions::ContextReleaseBehavior::Flush, GLFW_RELEASE_BEHAVIOR_FLUSH },
+        { WindowOptions::ContextReleaseBehavior::None, GLFW_RELEASE_BEHAVIOR_NONE }
+};
+
+struct StylePair stylePairs[] = {
+        { WindowOptions::WINDOWSTYLE_FOCUSED, GLFW_FOCUSED },
+        { WindowOptions::WINDOWSTYLE_ICONIFIED, GLFW_ICONIFIED },
+        { WindowOptions::WINDOWSTYLE_RESIZABLE, GLFW_RESIZABLE },
+        { WindowOptions::WINDOWSTYLE_VISIBLE, GLFW_VISIBLE },
+        { WindowOptions::WINDOWSTYLE_DECORATED, GLFW_DECORATED },
+        { WindowOptions::WINDOWSTYLE_AUTO_ICONIFY, GLFW_AUTO_ICONIFY },
+        { WindowOptions::WINDOWSTYLE_FLOATING, GLFW_FLOATING },
+        { WindowOptions::WINDOWSTYLE_MAXIMIZED, GLFW_MAXIMIZED },
+        { WindowOptions::WINDOWSTYLE_STEREO, GLFW_STEREO },
+        { WindowOptions::WINDOWSTYLE_SRGB_CAPABLE, GLFW_SRGB_CAPABLE },
+        { WindowOptions::WINDOWSTYLE_DOUBLE_BUFFER, GLFW_DOUBLEBUFFER },
+        { WindowOptions::WINDOWSTYLE_FORWARD_COMPAT, GLFW_OPENGL_FORWARD_COMPAT },
+        { WindowOptions::WINDOWSTYLE_DEBUG_CONTEXT, GLFW_OPENGL_DEBUG_CONTEXT }
+};
+
 std::mutex Glfw3Window::mutex;
 std::vector<std::unique_ptr<Glfw3Window>> Glfw3Window::windows;
 
 Glfw3Window::Glfw3Window(const WindowOptions &options) {
-
+    initialize(options);
 }
 
 Glfw3Window::~Glfw3Window() {
 
 }
 
-Fragment *Glfw3Window::getRootFragment() {
+Widget *Glfw3Window::getRootFragment() {
     return nullptr;
 }
 
@@ -92,7 +156,8 @@ void Glfw3Window::onWindowRefresh() {
 Glfw3Window *Glfw3Window::findWindow(GLFWwindow *window) {
     std::lock_guard<std::mutex> lock(mutex);
 
-    auto it = std::find_if(windows.begin(), windows.end(), [&](const std::unique_ptr<Glfw3Window>& glfw3Window) {
+    auto it = std::find_if(windows.begin(), windows.end(),
+                           [&](const std::unique_ptr<Glfw3Window>& glfw3Window) {
        return glfw3Window.get()->getHandle() == window;
     });
 
@@ -105,6 +170,89 @@ Glfw3Window *Glfw3Window::findWindow(GLFWwindow *window) {
 
 bool Glfw3Window::shouldClose() const {
     return false;
+}
+
+void Glfw3Window::initialize(const WindowOptions &options) {
+    glfwWindowHint(GLFW_RED_BITS, options.getRedBits());
+    glfwWindowHint(GLFW_GREEN_BITS, options.getGreenBits());
+    glfwWindowHint(GLFW_BLUE_BITS, options.getBlueBits());
+    glfwWindowHint(GLFW_ALPHA_BITS, options.getAlphaBits());
+    glfwWindowHint(GLFW_DEPTH_BITS, options.getDepthBits());
+    glfwWindowHint(GLFW_STENCIL_BITS, options.getStencilBits());
+    glfwWindowHint(GLFW_SAMPLES, options.getSamples());
+    glfwWindowHint(GLFW_REFRESH_RATE, options.getRefreshRate());
+
+    for(auto& p : clientApiPairs) {
+        if(p.clientApi == options.getClientApi()) {
+            glfwWindowHint(GLFW_CLIENT_API, p.glfwValue);
+            break;
+        }
+    }
+
+    for(auto& p : contextApiPairs) {
+        if(p.contextApi == options.getContextApi()) {
+            glfwWindowHint(GLFW_CONTEXT_CREATION_API, p.glfwValue);
+            break;
+        }
+    }
+
+    for(auto& p : contextRobustnessPairs) {
+        if(p.robustness == options.getContextRobustness()) {
+            glfwWindowHint(GLFW_CONTEXT_ROBUSTNESS, p.glfwValue);
+            break;
+        }
+    }
+
+    for(auto& p : releaseBehaviorPairs) {
+        if(p.releaseBehavior == options.getContextReleaseBehavior()) {
+            glfwWindowHint(GLFW_CONTEXT_RELEASE_BEHAVIOR, p.glfwValue);
+            break;
+        }
+    }
+
+    const uint16_t style = options.getStyle();
+    for(auto &p : stylePairs) {
+        if(style & p.style) {
+            glfwWindowHint(p.glfwValue, true);
+        }
+    }
+
+    int width, height;
+    GLFWmonitor *monitor = nullptr;
+    if(!options.isFullScreen()) {
+        width = options.getWidth();
+        height = options.getHeight();
+    }
+    else {
+        int count;
+        const int selectedMonitor = options.getMonitor();
+        GLFWmonitor ** monitors = glfwGetMonitors(&count);
+        if(!monitors || count == 0 || selectedMonitor >= count) {
+            throw std::runtime_error("Unable to select monitor");
+        }
+
+        monitor = monitors[selectedMonitor];
+        if(!monitor) {
+            throw std::runtime_error("Unable to get primary monitor info");
+        }
+
+        const GLFWvidmode *currentMode = glfwGetVideoMode(monitor);
+        if(!currentMode) {
+            throw std::runtime_error("Unable to get primary monitor video mode");
+        }
+
+        width = currentMode->width;
+        height = currentMode->height;
+    }
+
+    window = glfwCreateWindow(width, height, options.getTitle().c_str(), monitor, nullptr);
+
+    glfwSetFramebufferSizeCallback(window, Glfw3Window::framebufferSizeCallback);
+    glfwSetWindowIconifyCallback(window, Glfw3Window::windowIconifyCallback);
+    glfwSetWindowFocusCallback(window, Glfw3Window::windowFocusCallback);
+    glfwSetWindowPosCallback(window, Glfw3Window::windowPositionCallback);
+    glfwSetWindowRefreshCallback(window, Glfw3Window::windowRefreshCallback);
+    glfwSetWindowSizeCallback(window, Glfw3Window::windowSizeCallback);
 }
 
 void Glfw3Window::framebufferSizeCallback(GLFWwindow *window, int width, int height) {
@@ -160,7 +308,6 @@ void Glfw3Window::windowSizeCallback(GLFWwindow *window, int width, int height) 
 
     glfw3Window->onWindowResize(width, height);
 }
-
 
 }
 }

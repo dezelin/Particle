@@ -37,18 +37,24 @@ namespace ui {
 
 namespace app {
 
+using WindowOptions = frags::WindowOptions;
+
 class AppOptions {
 public:
     AppOptions();
 
-    const frags::WindowOptions& getMainWindowOptions() const {
+    WindowOptions& getMainWindowOptions() {
+        return mainWindowOptions;
+    };
+
+    const WindowOptions& getMainWindowOptions() const {
         return mainWindowOptions;
     };
 
     static AppOptions parseCmdLine(int argc, char **argv);
 
 private:
-    frags::WindowOptions mainWindowOptions;
+    WindowOptions mainWindowOptions;
 };
 
 }

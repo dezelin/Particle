@@ -45,8 +45,8 @@ set(SOURCE_FILES
         events/MouseWheelEvent.h
         frags/Drawable.cpp
         frags/Drawable.h
-        frags/Fragment.cpp
-        frags/Fragment.h
+        frags/Widget.cpp
+        frags/Widget.h
         frags/Window.cpp
         frags/Window.h
         frags/WindowOptions.cpp

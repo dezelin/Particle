@@ -31,7 +31,7 @@
 #ifndef PARTICLE_WINDOW_H
 #define PARTICLE_WINDOW_H
 
-#include "Fragment.h"
+#include "Widget.h"
 #include "RenderingContext.h"
 #include "WindowOptions.h"
 
@@ -47,7 +47,7 @@ public:
 
     virtual ~Window() { }
 
-    virtual Fragment* getRootFragment() = 0;
+    virtual Widget* getRootFragment() = 0;
 
     virtual void render() const = 0;
 

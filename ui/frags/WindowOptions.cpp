@@ -51,9 +51,9 @@ const uint16_t kDefaultStyle =
         | WindowOptions::WINDOWSTYLE_DOUBLE_BUFFER;
 
 WindowOptions::WindowOptions()
-    : width(0)
+    : monitor(0)
+    , width(0)
     , height(0)
-    , fullScreen(true)
     , redBits(kDefaultColorBits)
     , greenBits(kDefaultColorBits)
     , blueBits(kDefaultColorBits)
@@ -82,7 +82,6 @@ WindowOptions::WindowOptions(const std::string &_title)
 WindowOptions::WindowOptions(int _width, int _height, const std::string& _title)
     : WindowOptions()
 {
-    fullScreen = true;
     title = _title;
     width = _width;
     height = _height;
@@ -94,6 +93,14 @@ const std::string &WindowOptions::getTitle() const {
 
 void WindowOptions::setTitle(const std::string &_title) {
     title = _title;
+}
+
+uint8_t WindowOptions::getMonitor() const {
+    return monitor;
+}
+
+void WindowOptions::setMonitor(uint8_t _monitor) {
+    monitor = _monitor;
 }
 
 int WindowOptions::getWidth() const {
@@ -113,11 +120,16 @@ void WindowOptions::setHeight(int _height) {
 }
 
 bool WindowOptions::isFullScreen() const {
-    return fullScreen;
+    return style & WINDOWSTYLE_FULL_SCREEN;
 }
 
-void WindowOptions::setFullScreen(bool _fullScreen) {
-    fullScreen = _fullScreen;
+void WindowOptions::setFullScreen(bool fullScreen) {
+    if(fullScreen) {
+        style = style | WINDOWSTYLE_FULL_SCREEN;
+    }
+    else {
+        style = style & ~WINDOWSTYLE_FULL_SCREEN;
+    }
 }
 
 uint8_t WindowOptions::getRedBits() const {
@@ -230,6 +242,14 @@ WindowOptions::OpenGLProfile WindowOptions::getProfile() const {
 
 void WindowOptions::setProfile(WindowOptions::OpenGLProfile _profile) {
     profile = _profile;
+}
+
+uint16_t WindowOptions::getStyle() const {
+    return style;
+}
+
+void WindowOptions::setStyle(uint16_t _style) {
+    style = _style;
 }
 
 }

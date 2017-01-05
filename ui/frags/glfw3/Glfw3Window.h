@@ -48,7 +48,7 @@ public:
 
     virtual ~Glfw3Window();
 
-    Fragment *getRootFragment() override;
+    Widget *getRootFragment() override;
 
     bool shouldClose() const override;
 
@@ -72,12 +72,15 @@ public:
 
 private:
 
+    void initialize(const WindowOptions &options);
+
     GLFWwindow* getHandle() { return window; }
 
     static std::mutex mutex;
     static std::vector<std::unique_ptr<Glfw3Window>> windows;
 
     static Glfw3Window* findWindow(GLFWwindow *window);
+
     static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
     static void windowIconifyCallback(GLFWwindow *window, int iconified);
     static void windowFocusCallback(GLFWwindow *window, int focused);

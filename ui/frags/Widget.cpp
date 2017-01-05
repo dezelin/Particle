@@ -28,58 +28,69 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_FRAG_H
-#define PARTICLE_FRAG_H
+#include "Widget.h"
 
-#include "Component.h"
-#include "Drawable.h"
-#include "KeyboardInputHandler.h"
-#include "MouseInputHandler.h"
-
-#include <vector>
+#include <algorithm>
 
 namespace ui {
 
 namespace frags {
 
-class Fragment
-        : public Component<Fragment>,
-          public Drawable,
-          public KeyboardInputHandler,
-          public MouseInputHandler {
-public:
-    const std::vector<Fragment *> &getChildren() const override;
+const std::vector<Widget *> &Widget::getChildren() const {
+    return children;
+}
 
-    virtual ~Fragment() { }
+Widget *Widget::getParent() {
+    return parent;
+}
 
-    Fragment *getParent() override;
+void Widget::addChild(Widget *childFragment) {
+    auto it = std::find(children.begin(), children.end(), childFragment);
+    if(it == children.end()) {
+        children.push_back(childFragment);
+    }
+}
 
-    void addChild(Fragment *childFragment) override;
+Widget *Widget::removeChild(Widget *childFragment) {
+    auto it = std::remove(children.begin(), children.end(), childFragment);
+    if(it == children.end()) {
+        return nullptr;
+    }
 
-    Fragment *removeChild(Fragment *childFragment) override;
+    children.erase(it, children.end());
+    return *it;
+}
 
-    void draw() override;
+void Widget::draw() {
 
-    void onKeyPressed(const events::KeyboardEvent &event) override;
+}
 
-    void onKeyReleased(const events::KeyboardEvent &event) override;
+void Widget::onKeyPressed(const events::KeyboardEvent &event) {
 
-    void onKeyRepeat(const events::KeyboardEvent &event) override;
+}
 
-    void onMouseMove(const events::MouseEvent &event) override;
+void Widget::onKeyReleased(const events::KeyboardEvent &event) {
 
-    void onMouseButtonPressed(const events::MouseButtonEvent &event) override;
+}
 
-    void onMouseButtonReleased(const events::MouseButtonEvent &event) override;
+void Widget::onKeyRepeat(const events::KeyboardEvent &event) {
 
-    void onMouseWheel(const events::MouseWheelEvent &event) override;
+}
 
-private:
-    Fragment *parent;
-    std::vector<Fragment*> children;
-};
+void Widget::onMouseMove(const events::MouseEvent &event) {
+
+}
+
+void Widget::onMouseButtonPressed(const events::MouseButtonEvent &event) {
+
+}
+
+void Widget::onMouseButtonReleased(const events::MouseButtonEvent &event) {
+
+}
+
+void Widget::onMouseWheel(const events::MouseWheelEvent &event) {
 
 }
 }
-
-#endif //PARTICLE_FRAG_H
+}

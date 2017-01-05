@@ -100,6 +100,10 @@ struct WindowOptions {
 
     void setTitle(const std::string &title);
 
+    uint8_t getMonitor() const;
+
+    void setMonitor(uint8_t monitor);
+
     int getWidth() const;
 
     void setWidth(int width);
@@ -168,11 +172,15 @@ struct WindowOptions {
 
     void setProfile(OpenGLProfile profile);
 
+    uint16_t getStyle() const;
+
+    void setStyle(uint16_t style);
+
 private:
     std::string title;
+    uint8_t monitor;
     int width;
     int height;
-    bool fullScreen;
 
     uint8_t redBits;
     uint8_t greenBits;

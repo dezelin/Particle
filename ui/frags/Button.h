@@ -32,7 +32,7 @@
 #define PARTICLE_BUTTON_H
 
 #include "ButtonCreationParams.h"
-#include "Fragment.h"
+#include "Widget.h"
 
 #include "events/Event.h"
 
@@ -42,11 +42,12 @@ namespace ui {
 
 namespace frags {
 
-class Button : public Fragment {
+class Button : public Widget {
 public:
     static std::unique_ptr<Button> create(const ButtonCreationParams& params);
 
     virtual ~Button() { }
+
 private:
     events::Event<> clickEvent;
 };
