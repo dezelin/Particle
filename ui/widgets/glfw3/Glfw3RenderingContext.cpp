@@ -41,6 +41,13 @@ Glfw3RenderingContext::Glfw3RenderingContext(ContextHandle contextHandle,
         : window(reinterpret_cast<GLFWwindow *>(contextHandle)),
           swapInterval(options.getSwapInterval()) {
 
+    int width;
+    int height;
+
+    glfwGetFramebufferSize(window, &width, &height);
+
+    viewPort.setWidth(width);
+    viewPort.setHeight(height);
 }
 
 OverlayRenderingContext::ContextHandle Glfw3RenderingContext::getHandle() {

@@ -62,8 +62,9 @@ public:
     const OverlayProjection &getProjection() const override;
 
 private:
-    int swapInterval;
     GLFWwindow *window;
+
+    int swapInterval;
     Rectangle viewPort;
     OverlayProjection projection;
 };
