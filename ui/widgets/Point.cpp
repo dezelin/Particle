@@ -28,32 +28,39 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
-
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
-
-#include <memory>
+#include "Point.h"
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
+Point::Point(float _x, float _y) : x(_x), y(_y) {
 
-class Glfw3App : public App {
+}
 
-public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
+bool Point::operator==(const Point &other) const {
+    return x == other.x && y == other.y;
+}
 
-    int run() override;
-};
+bool Point::operator!=(const Point &other) const {
+    return x != other.x || y != other.y;
+}
+
+float Point::getX() const {
+    return x;
+}
+
+void Point::setX(float _x) {
+    x = _x;
+}
+
+float Point::getY() const {
+    return y;
+}
+
+void Point::setY(float _y) {
+    y = _y;
+}
 
 }
 }
-}
-
-#endif //PARTICLE_GLFW3APP_H

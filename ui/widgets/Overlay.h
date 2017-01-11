@@ -28,32 +28,25 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
+#ifndef PARTICLE_OVERLAY_H
+#define PARTICLE_OVERLAY_H
 
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
+#include "OverlayOptions.h"
+#include "Widget.h"
 
 #include <memory>
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
-
-class Glfw3App : public App {
-
+class Overlay : public Widget {
 public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
 
-    int run() override;
+    static std::unique_ptr<Overlay> create(const OverlayOptions &params);
 };
 
 }
 }
-}
 
-#endif //PARTICLE_GLFW3APP_H
+#endif //PARTICLE_OVERLAY_H

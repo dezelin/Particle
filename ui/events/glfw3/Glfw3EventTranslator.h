@@ -28,32 +28,29 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
+#ifndef PARTICLE_EVENTTRANSLATOR_H
+#define PARTICLE_EVENTTRANSLATOR_H
 
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
-
-#include <memory>
+#include <events/Keys.h>
+#include <events/Mouse.h>
 
 namespace ui {
 
-namespace app {
+namespace events {
 
 namespace glfw3 {
 
-class Glfw3App : public App {
-
+class Glfw3EventTranslator {
 public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
+    static Key translateKey(int key);
 
-    int run() override;
+    static KeyModifiers translateModifiers(int mods);
+
+    static MouseButton translateMouseButton(int button);
 };
 
 }
 }
 }
 
-#endif //PARTICLE_GLFW3APP_H
+#endif //PARTICLE_EVENTTRANSLATOR_H

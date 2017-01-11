@@ -28,32 +28,24 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
-
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
-
-#include <memory>
+#include "OverlayRenderingOptions.h"
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
+OverlayRenderingOptions::OverlayRenderingOptions()
+        : swapInterval(1) {
 
-class Glfw3App : public App {
+}
 
-public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
+int OverlayRenderingOptions::getSwapInterval() const {
+    return swapInterval;
+}
 
-    int run() override;
-};
+void OverlayRenderingOptions::setSwapInterval(int _swapInterval) {
+    swapInterval = _swapInterval;
+}
 
 }
 }
-}
-
-#endif //PARTICLE_GLFW3APP_H

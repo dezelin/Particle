@@ -33,7 +33,7 @@
 
 #include "AppOptions.h"
 
-#include "frags/Window.h"
+#include "widgets/Window.h"
 
 #include <memory>
 
@@ -48,6 +48,13 @@ public:
     virtual ~App();
 
     virtual int run() = 0;
+
+    widgets::Window *getMainWindow() const;
+
+    void setMainWindow(std::unique_ptr<widgets::Window> &&mainWindow);
+
+private:
+    std::unique_ptr<widgets::Window> mainWindow;
 };
 
 }

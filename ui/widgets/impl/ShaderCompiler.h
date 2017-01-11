@@ -28,32 +28,27 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
+#ifndef PARTICLE_SHADERWIDGET_H
+#define PARTICLE_SHADERWIDGET_H
 
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
+#include <glad/glad.h>
 
-#include <memory>
+#include <string>
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
+namespace impl {
 
-class Glfw3App : public App {
-
+class ShaderCompiler {
 public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
-
-    int run() override;
+    static GLuint compileShaders(const std::string &vertexShaderSrc,
+                                 const std::string &fragmentShaderSrc);
 };
 
 }
 }
 }
 
-#endif //PARTICLE_GLFW3APP_H
+#endif //PARTICLE_SHADERWIDGET_H

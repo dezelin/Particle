@@ -28,32 +28,61 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
+#ifndef PARTICLE_RECTANGLE_H
+#define PARTICLE_RECTANGLE_H
 
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
-
-#include <memory>
+#include "Point.h"
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
-
-class Glfw3App : public App {
-
+class Rectangle {
 public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
+    Rectangle();
 
-    int run() override;
+    explicit Rectangle(float left, float top, float right, float bottom);
+
+    explicit Rectangle(const Point &topLeft, const Point &bottomRight);
+
+    bool operator==(const Rectangle &other) const;
+
+    bool operator!=(const Rectangle &other) const;
+
+    float getLeft() const;
+
+    void setLeft(float left);
+
+    float getRight() const;
+
+    void setRight(float right);
+
+    float getTop() const;
+
+    void setTop(float top);
+
+    float getBottom() const;
+
+    void setBottom(float bottom);
+
+    float getWidth() const;
+
+    void setWidth(float width);
+
+    float getHeight() const;
+
+    void setHeight(float height);
+
+    bool isEmpty() const;
+
+    bool isInside(Point point) const;
+
+private:
+    Point left;
+    Point right;
 };
 
 }
 }
-}
 
-#endif //PARTICLE_GLFW3APP_H
+#endif //PARTICLE_RECTANGLE_H

@@ -59,7 +59,7 @@ public:
                     static_cast<EventHandler<Listener, Args...>*>(callable);
             return handler != nullptr
                    && handler->getListener() == listener
-                   && handler->getMember() == member;
+                   && handler->getHandler() == member;
         });
 
         handlers.erase(it, handlers.end());

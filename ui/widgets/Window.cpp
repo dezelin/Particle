@@ -28,32 +28,17 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
+#include "Window.h"
 
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
-
-#include <memory>
+#include "glfw3/Glfw3Window.h"
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
-
-class Glfw3App : public App {
-
-public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
-
-    int run() override;
-};
+std::unique_ptr<Window> Window::create(const WindowOptions &options) {
+    return std::make_unique<glfw3::Glfw3Window>(options);
+}
 
 }
 }
-}
-
-#endif //PARTICLE_GLFW3APP_H

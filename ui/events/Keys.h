@@ -28,51 +28,153 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_EVENTHANDLER_H
-#define PARTICLE_EVENTHANDLER_H
+#ifndef PARTICLE_KEYS_H_H
+#define PARTICLE_KEYS_H_H
 
-#include <functional>
+#include <bitset>
+#include <cstdint>
 
 namespace ui {
 
 namespace events {
 
-template <typename ...Args>
-class EventHandlerBase {
-public:
-    virtual void notify(Args... args) = 0;
+using CodePoint = unsigned int;
+using ScanCode = int;
+
+enum class Key : int {
+    Unknown = -1,
+    Space,
+    Apostrophe,
+    Comma,
+    Minus,
+    Period,
+    Slash,
+    Key0,
+    Key1,
+    Key2,
+    Key3,
+    Key4,
+    Key5,
+    Key6,
+    Key7,
+    Key8,
+    Key9,
+    Semicolon,
+    Equal,
+    A,
+    B,
+    C,
+    D,
+    E,
+    F,
+    G,
+    H,
+    I,
+    J,
+    K,
+    L,
+    M,
+    N,
+    O,
+    P,
+    Q,
+    R,
+    S,
+    T,
+    U,
+    V,
+    W,
+    X,
+    Y,
+    Z,
+    LeftBracket,
+    BackSlash,
+    RightBracket,
+    GraveAccent,
+    World1,
+    World2,
+    Escape,
+    Enter,
+    Tab,
+    BackSpace,
+    Insert,
+    Delete,
+    Right,
+    Left,
+    Down,
+    Up,
+    PageUp,
+    PageDown,
+    Home,
+    End,
+    CapsLock,
+    ScrollLock,
+    NumLock,
+    PrintScreen,
+    Pause,
+    F1,
+    F2,
+    F3,
+    F4,
+    F5,
+    F6,
+    F7,
+    F8,
+    F9,
+    F10,
+    F11,
+    F12,
+    F13,
+    F14,
+    F15,
+    F16,
+    F17,
+    F18,
+    F19,
+    F20,
+    F21,
+    F22,
+    F23,
+    F24,
+    F25,
+    KeyPad0,
+    KeyPad1,
+    KeyPad2,
+    KeyPad3,
+    KeyPad4,
+    KeyPad5,
+    KeyPad6,
+    KeyPad7,
+    KeyPad8,
+    KeyPad9,
+    KeyPadDecimal,
+    KeyPadDivide,
+    KeyPadMultiply,
+    KeyPadSubtract,
+    KeyPadAdd,
+    KeyPadEnter,
+    KeyPadEqual,
+    LeftShift,
+    LeftControl,
+    LeftAlt,
+    LeftSuper,
+    RightShift,
+    RightControl,
+    RightAlt,
+    RightSuper,
+    Menu
 };
 
-template <typename Listener, typename ...Args>
-class EventHandler : public EventHandlerBase<Args...> {
-public:
-
-    using ListenerMember = void (Listener::*)(Args...);
-
-    explicit EventHandler(Listener *_listener, ListenerMember _handler)
-        : listener(_listener), handler(_handler){
-    }
-
-    Listener* getListener() {
-        return listener;
-    }
-
-    ListenerMember getHandler() {
-        return handler;
-    }
-
-    void notify(Args ...args) override {
-        if(listener && handler) {
-            (listener->*handler)(args...);
-        }
-    }
-
-private:
-    Listener *listener;
-    ListenerMember handler;
+enum class Modifier {
+    Shift = 0,
+    Control,
+    Alt,
+    Super
 };
+
+using KeyModifiers = std::bitset<4>;
 
 }
 }
 
-#endif //PARTICLE_EVENTHANDLER_H
+#endif //PARTICLE_KEYS_H_H

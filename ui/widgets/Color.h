@@ -28,51 +28,90 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_EVENTHANDLER_H
-#define PARTICLE_EVENTHANDLER_H
-
-#include <functional>
+#ifndef PARTICLE_COLOR_H
+#define PARTICLE_COLOR_H
 
 namespace ui {
 
-namespace events {
+namespace widgets {
 
-template <typename ...Args>
-class EventHandlerBase {
-public:
-    virtual void notify(Args... args) = 0;
-};
-
-template <typename Listener, typename ...Args>
-class EventHandler : public EventHandlerBase<Args...> {
+class Color {
 public:
 
-    using ListenerMember = void (Listener::*)(Args...);
+    using Rgb = unsigned int;
 
-    explicit EventHandler(Listener *_listener, ListenerMember _handler)
-        : listener(_listener), handler(_handler){
+    enum {
+        Black = 0xff000000,
+        White = 0xffffffff,
+        Red = 0xffff0000,
+        Green = 0xff00ff00,
+        Blue = 0xff0000ff
+    };
+
+    Color() : Color(Color::White) {
+
     }
 
-    Listener* getListener() {
-        return listener;
+    explicit Color(Rgb rgb)
+            : Color(Color::fromRgba(rgb)) {
+
     }
 
-    ListenerMember getHandler() {
-        return handler;
+    explicit Color(unsigned char r, unsigned char g, unsigned char b,
+                   unsigned char a)
+            : red(r), green(g), blue(b), alpha(a) {
+
     }
 
-    void notify(Args ...args) override {
-        if(listener && handler) {
-            (listener->*handler)(args...);
-        }
+    explicit Color(unsigned char r, unsigned char g, unsigned char b)
+            : Color(r, g, b, 255) {
+
     }
+
+    Color(const Color &color)
+            : red(color.red), green(color.green), blue(color.blue),
+              alpha(color.alpha) {
+    }
+
+    unsigned char getRed() const { return red; };
+
+    float getRedF() const { return (float) red / 255; }
+
+    void setRed(unsigned char r) { red = r; }
+
+    unsigned char getGreen() const { return green; }
+
+    float getGreenF() const { return (float) green / 255; }
+
+    void setGreen(unsigned char g) { green = g; }
+
+    unsigned char getBlue() const { return blue; };
+
+    float getBlueF() const { return (float) blue / 255; }
+
+    void setBlue(unsigned char b) { blue = b; }
+
+    unsigned char getAlpha() const { return alpha; }
+
+    float getAlphaF() const { return (float) alpha / 255; }
+
+    void setAlpha(unsigned char a) { alpha = a; }
+
+    static Color fromRgba(Rgb rgb);
+
+    static Rgb toRgba(const Color &color);
 
 private:
-    Listener *listener;
-    ListenerMember handler;
+
+    unsigned char red;
+    unsigned char green;
+    unsigned char blue;
+    unsigned char alpha;
 };
 
+
+
 }
 }
 
-#endif //PARTICLE_EVENTHANDLER_H
+#endif //PARTICLE_COLOR_H

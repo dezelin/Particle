@@ -28,32 +28,23 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
-
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
-
-#include <memory>
+#ifndef PARTICLE_FOCUSHOLDER_H
+#define PARTICLE_FOCUSHOLDER_H
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
-
-class Glfw3App : public App {
-
+class FocusHolder {
 public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
+    virtual ~FocusHolder() {}
 
-    int run() override;
+    virtual bool hasFocus() const = 0;
+
+    virtual void onFocus(bool focused) = 0;
 };
 
 }
 }
-}
 
-#endif //PARTICLE_GLFW3APP_H
+#endif //PARTICLE_FOCUSHOLDER_H

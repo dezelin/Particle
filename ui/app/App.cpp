@@ -29,19 +29,27 @@
 //
 
 #include "App.h"
+
 #include "glfw3/Glfw3App.h"
 
 namespace ui {
 
 namespace app {
 
-using namespace ui::frags;
+using namespace ui::widgets;
 
 App::~App() { }
 
 std::unique_ptr<App> App::create(const AppOptions &options) {
-    using Glfw3App = ui::app::glfw3::Glfw3App;
-    return std::make_unique<Glfw3App>(options);
+    return std::make_unique<ui::app::glfw3::Glfw3App>(options);
+}
+
+widgets::Window *App::getMainWindow() const {
+    return mainWindow.get();
+}
+
+void App::setMainWindow(std::unique_ptr<widgets::Window> &&_mainWindow) {
+    mainWindow = std::move(_mainWindow);
 }
 
 }

@@ -28,32 +28,34 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
+#ifndef PARTICLE_WIDGETCREATIONPARAMS_H
+#define PARTICLE_WIDGETCREATIONPARAMS_H
 
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
-
-#include <memory>
+#include "Color.h"
+#include "Rectangle.h"
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
-
-class Glfw3App : public App {
-
+class WidgetOptions {
 public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
+    WidgetOptions() {}
 
-    int run() override;
+    const Color &getBgColor() const { return bgColor; }
+
+    void setBgColor(const Color &color) { bgColor = color; }
+
+    const Rectangle &getRect() const { return widgetRect; };
+
+    void setRect(const Rectangle &rect) { widgetRect = rect; }
+
+private:
+    Color bgColor;
+    Rectangle widgetRect;
 };
 
 }
 }
-}
 
-#endif //PARTICLE_GLFW3APP_H
+#endif //PARTICLE_WIDGETCREATIONPARAMS_H

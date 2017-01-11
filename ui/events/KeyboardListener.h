@@ -28,32 +28,30 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
+#ifndef PARTICLE_KEYBOARDINPUTHANDLER_H
+#define PARTICLE_KEYBOARDINPUTHANDLER_H
 
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
-
-#include <memory>
+#include "Keys.h"
 
 namespace ui {
 
-namespace app {
+namespace events {
 
-namespace glfw3 {
-
-class Glfw3App : public App {
-
+class KeyboardListener {
 public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
+    virtual void onCharInput(CodePoint codePoint, KeyModifiers modifiers) = 0;
 
-    int run() override;
+    virtual void
+    onKeyPressed(Key key, ScanCode scancode, KeyModifiers modifiers) = 0;
+
+    virtual void
+    onKeyReleased(Key key, ScanCode scancode, KeyModifiers modifiers) = 0;
+
+    virtual void
+    onKeyRepeat(Key key, ScanCode scancode, KeyModifiers modifiers) = 0;
 };
 
 }
 }
-}
 
-#endif //PARTICLE_GLFW3APP_H
+#endif //PARTICLE_KEYBOARDINPUTHANDLER_H

@@ -28,32 +28,49 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
+#ifndef PARTICLE_OVERLAYPERSPECTIVE_H
+#define PARTICLE_OVERLAYPERSPECTIVE_H
 
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
-
-#include <memory>
+#include <glm/glm.hpp>
+#include "Rectangle.h"
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
 
-class Glfw3App : public App {
-
+class OverlayProjection {
 public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
 
-    int run() override;
+    OverlayProjection();
+
+    const glm::mat4 &getModel() const;
+
+    void setModel(const glm::mat4 &model);
+
+    const glm::mat4 &getView() const;
+
+    void setView(const glm::mat4 &view);
+
+    const glm::mat4 &getProjection() const;
+
+    void setOrthoProjection(float left, float right, float bottom,
+                            float top, float zNear, float zFar);
+
+    void
+    cameraLookAt(const glm::vec3 &eye, const glm::vec3 &center,
+                 const glm::vec3 &up);
+
+    const Rectangle &getViewPort() const;
+
+private:
+    Rectangle rect;
+    glm::mat4 model;
+    glm::mat4 view;
+    glm::mat4 projection;
 };
 
 }
 }
-}
 
-#endif //PARTICLE_GLFW3APP_H
+#endif //PARTICLE_OVERLAY_H

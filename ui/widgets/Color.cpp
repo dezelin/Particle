@@ -28,32 +28,30 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
-
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
-
-#include <memory>
+#include "Color.h"
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
+const unsigned int RED_MASK = 0x00ff0000;
+const unsigned int GREEN_MASK = 0x0000ff00;
+const unsigned int BLUE_MASK = 0x000000ff;
+const unsigned int ALPHA_MASK = 0xff000000;
 
-class Glfw3App : public App {
+Color Color::fromRgba(Rgb rgb) {
+    return Color(
+            ((rgb & RED_MASK) >> 16) & 0xff,
+            (rgb & GREEN_MASK) >> 8,
+            (rgb & BLUE_MASK),
+            (rgb & ALPHA_MASK) >> 24
+    );
+}
 
-public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
-
-    int run() override;
-};
+Color::Rgb Color::toRgba(const Color &color) {
+    return Rgb(color.alpha << 24 | color.red << 16 | color.green << 8 |
+               color.blue);
+}
 
 }
 }
-}
-
-#endif //PARTICLE_GLFW3APP_H

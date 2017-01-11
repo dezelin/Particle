@@ -28,32 +28,59 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
+#include "widgets/OverlayProjection.h"
 
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
-
-#include <memory>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
 
-class Glfw3App : public App {
+OverlayProjection::OverlayProjection() {
 
-public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
+}
 
-    int run() override;
-};
+const glm::mat4 &OverlayProjection::getModel() const {
+    return model;
+}
+
+void OverlayProjection::setModel(const glm::mat4 &_model) {
+    model = _model;
+}
+
+const glm::mat4 &OverlayProjection::getView() const {
+    return view;
+}
+
+void OverlayProjection::setView(const glm::mat4 &_view) {
+    view = _view;
+}
+
+const glm::mat4 &OverlayProjection::getProjection() const {
+    return projection;
+}
+
+void
+OverlayProjection::setOrthoProjection(float left, float right, float bottom,
+                                      float top, float zNear, float zFar) {
+    rect.setLeft(left);
+    rect.setRight(right);
+    rect.setTop(top);
+    rect.setBottom(bottom);
+
+    projection = glm::ortho(left, right, bottom, top, zNear, zFar);
+}
+
+void
+OverlayProjection::cameraLookAt(const glm::vec3 &eye, const glm::vec3 &center,
+                                const glm::vec3 &up) {
+    view = glm::lookAt(eye, center, up);
+}
+
+const Rectangle &OverlayProjection::getViewPort() const {
+    return rect;
+}
 
 }
 }
-}
-
-#endif //PARTICLE_GLFW3APP_H

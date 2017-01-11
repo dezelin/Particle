@@ -28,10 +28,14 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#include <thread>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 #include "Glfw3App.h"
 
-#include "frags/glfw3/Glfw3Window.h"
+#include "widgets/glfw3/Glfw3Window.h"
+
+#include <thread>
 
 namespace ui {
 
@@ -39,30 +43,41 @@ namespace app {
 
 namespace glfw3 {
 
-using namespace ui::frags;
-using namespace ui::frags::glfw3;
+using namespace ui::widgets;
+using namespace ui::widgets::glfw3;
 
 Glfw3App::Glfw3App(const AppOptions &options) {
     if(!glfwInit()) {
-        throw std::runtime_error("Failed to initialize GLFW");
+        throw std::runtime_error("Failed to compile GLFW");
     }
 
-    mainWindow = Window::create(options.getMainWindowOptions());
+    auto mainWindow = Window::create(options.getMainWindowOptions());
     if(!mainWindow) {
         throw std::runtime_error("Failed to create main window");
     }
 
-    mainWindow->activateContext();
-    mainWindow->setBufferSwapInterval(1);
+    // Initialize GLAD extension loader
+    int gladOk = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+    if (!gladOk) {
+        throw std::runtime_error("Failed to compile OpenGL context");
+    }
+
+    setMainWindow(std::move(mainWindow));
 }
 
 Glfw3App::~Glfw3App() {
+    glfwTerminate();
 }
 
 int Glfw3App::run() {
+    Window *mainWindow = getMainWindow();
+    if (!mainWindow) {
+        return 1;
+    }
+
     while(!mainWindow->shouldClose()) {
         mainWindow->render();
-        glfwWaitEvents();
+        glfwPollEvents();
     }
 
     return 0;

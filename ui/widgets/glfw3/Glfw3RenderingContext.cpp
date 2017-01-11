@@ -28,32 +28,55 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
-
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
-
-#include <memory>
+#include "Glfw3RenderingContext.h"
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
 namespace glfw3 {
 
-class Glfw3App : public App {
+Glfw3RenderingContext::Glfw3RenderingContext(ContextHandle contextHandle,
+                                             const OverlayRenderingOptions &options)
+        : window(reinterpret_cast<GLFWwindow *>(contextHandle)),
+          swapInterval(options.getSwapInterval()) {
 
-public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
+}
 
-    int run() override;
-};
+OverlayRenderingContext::ContextHandle Glfw3RenderingContext::getHandle() {
+    return reinterpret_cast<OverlayRenderingContext::ContextHandle>(window);
+}
+
+void Glfw3RenderingContext::makeCurrent() {
+    glfwMakeContextCurrent(window);
+    glfwSwapInterval(swapInterval);
+}
+
+void Glfw3RenderingContext::resizeViewPort(int width, int height) {
+    glViewport(0, 0, width, height);
+
+    projection.setOrthoProjection(0.0f, width, 0.0f, height, -1.0f, 1.0f);
+
+    viewPort.setWidth(width);
+    viewPort.setHeight(height);
+}
+
+void Glfw3RenderingContext::swapBuffers() {
+    glfwSwapBuffers(window);
+}
+
+const Rectangle &Glfw3RenderingContext::getViewPort() const {
+    return viewPort;
+}
+
+OverlayProjection &Glfw3RenderingContext::getProjection() {
+    return projection;
+}
+
+const OverlayProjection &Glfw3RenderingContext::getProjection() const {
+    return projection;
+}
 
 }
 }
 }
-
-#endif //PARTICLE_GLFW3APP_H

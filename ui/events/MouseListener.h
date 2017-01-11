@@ -28,32 +28,32 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
+#ifndef PARTICLE_MOUSEINPUTHANDLER_H
+#define PARTICLE_MOUSEINPUTHANDLER_H
 
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
+#include <bitset>
 
-#include <memory>
+#include "Keys.h"
+#include "Mouse.h"
 
 namespace ui {
 
-namespace app {
+namespace events {
 
-namespace glfw3 {
-
-class Glfw3App : public App {
-
+class MouseListener {
 public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
+    virtual bool onMouseMove(float xPos, float yPos) = 0;
 
-    int run() override;
+    virtual bool
+    onMouseButtonPressed(MouseButton button, KeyModifiers mods) = 0;
+
+    virtual bool
+    onMouseButtonReleased(MouseButton button, KeyModifiers mods) = 0;
+
+    virtual bool onMouseWheel(float xOffset, float yOffset) = 0;
 };
 
 }
 }
-}
 
-#endif //PARTICLE_GLFW3APP_H
+#endif //PARTICLE_MOUSEINPUTHANDLER_H

@@ -28,32 +28,43 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
+#ifndef PARTICLE_OVERLAYCONTEXT_H
+#define PARTICLE_OVERLAYCONTEXT_H
 
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
+#include "OverlayProjection.h"
+#include "OverlayRenderingOptions.h"
 
 #include <memory>
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
-
-class Glfw3App : public App {
-
+class OverlayRenderingContext {
 public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
 
-    int run() override;
+    using ContextHandle = uintptr_t;
+
+    static std::unique_ptr<OverlayRenderingContext>
+    create(ContextHandle contextHandle,
+           const OverlayRenderingOptions &options);
+
+    virtual ContextHandle getHandle() = 0;
+
+    virtual void makeCurrent() = 0;
+
+    virtual void swapBuffers() = 0;
+
+    virtual void resizeViewPort(int width, int height) = 0;
+
+    virtual const Rectangle &getViewPort() const = 0;
+
+    virtual OverlayProjection &getProjection() = 0;
+
+    virtual const OverlayProjection &getProjection() const = 0;
 };
 
 }
 }
-}
 
-#endif //PARTICLE_GLFW3APP_H
+#endif //PARTICLE_OVERLAYCONTEXT_H

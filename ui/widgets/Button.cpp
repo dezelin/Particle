@@ -28,32 +28,15 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
-
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
-
-#include <memory>
+#include "Button.h"
+#include "impl/ButtonImpl.h"
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
-
-class Glfw3App : public App {
-
-public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
-
-    int run() override;
-};
-
+std::unique_ptr<Button> Button::create(const ButtonOptions &params) {
+    return std::make_unique<impl::ButtonImpl>(params);
 }
 }
 }
-
-#endif //PARTICLE_GLFW3APP_H

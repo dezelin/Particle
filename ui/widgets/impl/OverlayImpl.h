@@ -28,32 +28,30 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
+#ifndef PARTICLE_OVERLAYIMPL_H
+#define PARTICLE_OVERLAYIMPL_H
 
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
+#include <widgets/Overlay.h>
 
-#include <memory>
+#include "widgets/OverlayProjection.h"
+#include "ShaderCompiler.h"
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
+namespace impl {
 
-class Glfw3App : public App {
-
+class OverlayImpl : public Overlay, public ShaderCompiler {
 public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
+    explicit OverlayImpl(const OverlayOptions &params);
 
-    int run() override;
+private:
+
 };
 
 }
 }
 }
 
-#endif //PARTICLE_GLFW3APP_H
+#endif //PARTICLE_OVERLAYIMPL_H

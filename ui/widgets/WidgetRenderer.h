@@ -28,32 +28,24 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
+#ifndef PARTICLE_DRAWABLE_H
+#define PARTICLE_DRAWABLE_H
 
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
-
-#include <memory>
+#include "OverlayRenderingContext.h"
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
-
-class Glfw3App : public App {
-
+class WidgetRenderer {
 public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
 
-    int run() override;
+    virtual ~WidgetRenderer() {}
+
+    virtual void render(const OverlayRenderingContext &context) = 0;
 };
 
 }
 }
-}
 
-#endif //PARTICLE_GLFW3APP_H
+#endif //PARTICLE_DRAWABLE_H

@@ -31,13 +31,13 @@
 #ifndef PARTICLE_APPOPTIONS_H
 #define PARTICLE_APPOPTIONS_H
 
-#include "frags/WindowOptions.h"
+#include "widgets/WindowOptions.h"
 
 namespace ui {
 
 namespace app {
 
-using WindowOptions = frags::WindowOptions;
+using WindowOptions = widgets::WindowOptions;
 
 class AppOptions {
 public:

@@ -28,32 +28,57 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
-
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
-
-#include <memory>
+#include <iostream>
+#include "ShaderCompiler.h"
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
+namespace impl {
 
-class Glfw3App : public App {
+GLuint ShaderCompiler::compileShaders(const std::string &vertexShaderSrc,
+                                      const std::string &fragmentShaderSrc) {
+    GLint status;
+    const char *vertexSrc = vertexShaderSrc.c_str();
+    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vertexSrc, nullptr);
+    glCompileShader(vertexShader);
 
-public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &status);
+    if (!status) {
+        glDeleteShader(vertexShader);
+        return (GLuint) -1;
+    }
 
-    int run() override;
-};
+    const char *fragmentSrc = fragmentShaderSrc.c_str();
+    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentSrc, nullptr);
+    glCompileShader(fragmentShader);
 
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &status);
+    if (!status) {
+        glDeleteShader(vertexShader);
+        glDeleteShader(fragmentShader);
+        return (GLuint) -1;
+    }
+
+    const GLuint program = glCreateProgram();
+    glAttachShader(program, vertexShader);
+    glAttachShader(program, fragmentShader);
+    glLinkProgram(program);
+
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+
+    glGetProgramiv(program, GL_LINK_STATUS, &status);
+    if (!status) {
+        glDeleteProgram(program);
+        return (GLuint) -1;
+    }
+
+    return program;
 }
 }
 }
-
-#endif //PARTICLE_GLFW3APP_H
+}

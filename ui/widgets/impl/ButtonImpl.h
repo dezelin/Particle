@@ -28,32 +28,41 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
+#ifndef PARTICLE_BUTTONIMPL_H
+#define PARTICLE_BUTTONIMPL_H
 
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
+#include "ShaderCompiler.h"
 
-#include <memory>
+#include "widgets/Button.h"
+#include "widgets/ButtonOptions.h"
+
+#include <glad/glad.h>
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
+namespace impl {
 
-class Glfw3App : public App {
-
+class ButtonImpl : public Button, public ShaderCompiler {
 public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
+    ButtonImpl(const ButtonOptions &options);
 
-    int run() override;
+    void render(const OverlayRenderingContext &context) override;
+
+private:
+    bool compile();
+
+private:
+    Color bgColor;
+
+    static const std::string vertexShaderSrc;
+    static const std::string fragmentShaderSrc;
+    static GLuint shaderProgram;
 };
 
 }
 }
 }
 
-#endif //PARTICLE_GLFW3APP_H
+#endif //PARTICLE_BUTTONIMPL_H

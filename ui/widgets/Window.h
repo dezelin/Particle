@@ -28,32 +28,63 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
+#ifndef PARTICLE_WINDOW_H
+#define PARTICLE_WINDOW_H
 
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
+#include "Overlay.h"
+#include "Rectangle.h"
+#include "WindowOptions.h"
+
+#include "events/MouseListener.h"
+#include "events/KeyboardListener.h"
 
 #include <memory>
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
-
-class Glfw3App : public App {
-
+class Window : public events::KeyboardListener,
+               public events::MouseListener {
 public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
+    static std::unique_ptr<Window> create(const WindowOptions& options);
 
-    int run() override;
+    virtual ~Window() { }
+
+    virtual void render() = 0;
+
+    virtual float getLeft() const = 0;
+
+    virtual float getRight() const = 0;
+
+    virtual float getTop() const = 0;
+
+    virtual float getBottom() const = 0;
+
+    float getWidth() const { return getRight() - getLeft(); }
+
+    float getHeight() const { return getTop() - getBottom(); };
+
+    virtual Widget *getOverlay() const = 0;
+
+    virtual void setOverlay(std::unique_ptr<Widget> overlay) = 0;
+
+    virtual bool shouldClose() const = 0;
+
+    virtual void onWindowResize(int width, int height) = 0;
+
+    virtual void onFramebufferResize(int width, int height) = 0;
+
+    virtual void onWindowPosition(int x, int y) = 0;
+
+    virtual void onWindowIconify(bool iconified) = 0;
+
+    virtual void onWindowFocus(bool focused) = 0;
+
+    virtual void onWindowRefresh() = 0;
 };
 
 }
 }
-}
 
-#endif //PARTICLE_GLFW3APP_H
+#endif //PARTICLE_WINDOW_H

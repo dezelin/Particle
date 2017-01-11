@@ -28,32 +28,34 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef PARTICLE_GLFW3APP_H
-#define PARTICLE_GLFW3APP_H
-
-#include "app/App.h"
-#include "app/AppOptions.h"
-#include "widgets/Window.h"
+#ifndef PARTICLE_COMPONENT_H
+#define PARTICLE_COMPONENT_H
 
 #include <memory>
+#include <vector>
 
 namespace ui {
 
-namespace app {
+namespace widgets {
 
-namespace glfw3 {
-
-class Glfw3App : public App {
-
+template<typename T>
+class Component {
 public:
-    Glfw3App(const AppOptions& options);
-    virtual ~Glfw3App();
 
-    int run() override;
+    virtual ~Component() { }
+
+    virtual const std::vector<std::unique_ptr<T>> &getChildren() const = 0;
+
+    virtual T* getParent() = 0;
+
+    virtual void addChild(T* childFragment) = 0;
+
+    virtual T* removeChild(T* childFragment) = 0;
 };
 
 }
 }
-}
 
-#endif //PARTICLE_GLFW3APP_H
+
+
+#endif //PARTICLE_COMPONENT_H

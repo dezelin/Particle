@@ -86,7 +86,7 @@ void Glfw3MonitorManager::monitorCallback(GLFWmonitor *monitor, int event) {
         return;
     }
 
-    int index = 0;
+    unsigned index = 0;
     int monitorCount;
     GLFWmonitor **monitors = glfwGetMonitors(&monitorCount);
 
