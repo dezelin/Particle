@@ -42,9 +42,9 @@ const unsigned int ALPHA_MASK = 0xff000000;
 Color Color::fromRgba(Rgb rgb) {
     return Color(
             ((rgb & RED_MASK) >> 16) & 0xff,
-            (rgb & GREEN_MASK) >> 8,
-            (rgb & BLUE_MASK),
-            (rgb & ALPHA_MASK) >> 24
+            ((rgb & GREEN_MASK) >> 8) & 0xff,
+            ((rgb & BLUE_MASK)) & 0xff,
+            ((rgb & ALPHA_MASK) >> 24) & 0xff
     );
 }
 
