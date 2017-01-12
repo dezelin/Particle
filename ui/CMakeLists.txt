@@ -20,21 +20,6 @@ set(SOURCE_FILES
         app/AppOptions.h
         app/glfw3/Glfw3App.cpp
         app/glfw3/Glfw3App.h
-        display/GammaRamp.cpp
-        display/GammaRamp.h
-        display/Monitor.cpp
-        display/Monitor.h
-        display/MonitorManagerSubscriber.h
-        display/MonitorManager.cpp
-        display/MonitorManager.h
-        display/VideoMode.cpp
-        display/VideoMode.h
-        display/glfw3/Glfw3MonitorManager.cpp
-        display/glfw3/Glfw3MonitorManager.h
-        display/glfw3/Glfw3Monitor.cpp
-        display/glfw3/Glfw3Monitor.h
-        display/glfw3/Glfw3VideoMode.cpp
-        display/glfw3/Glfw3VideoMode.h
         events/Event.h
         events/EventHandler.h
         events/KeyboardListener.h
