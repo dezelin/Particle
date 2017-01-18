@@ -37,24 +37,22 @@ namespace ui {
 
 namespace app {
 
-using WindowOptions = widgets::WindowOptions;
-
 class AppOptions {
 public:
     AppOptions();
 
-    WindowOptions& getMainWindowOptions() {
+	widgets::WindowOptions& getMainWindowOptions() {
         return mainWindowOptions;
     };
 
-    const WindowOptions& getMainWindowOptions() const {
+    const widgets::WindowOptions& getMainWindowOptions() const {
         return mainWindowOptions;
     };
 
     static AppOptions parseCmdLine(int argc, char **argv);
 
 private:
-    WindowOptions mainWindowOptions;
+	widgets::WindowOptions mainWindowOptions;
 };
 
 }
